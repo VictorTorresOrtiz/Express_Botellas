@@ -1,0 +1,60 @@
+<%- include('template/cabecera', {tituloWeb: "Detalle"})%>
+<div class="container">
+  <h1>Detalles de la Botella</h1>
+  <% if (error) { %> <%= mensaje %>
+  <a href="/" class="btn btn-dark btn-block my-2"> Volver</a>
+  <% } %> <% if (!error) { %>
+  <form id="editar" data-id="<%= botellas._id %>" class="my-2" method="POST">
+    <h4>ID:</h4>
+    <input type="number" placeholder="<%= botellas.id %>" class="form-control my-2" name="id">
+
+    <h4>Nombre:</h4>
+    <input type="text" placeholder="<%= botellas.nombre %>" class="form-control my-2" name="nombre" />
+
+    <h4>Tipo de Alcohol:</h4>
+    <input type="text" placeholder="<%= botellas.tipo %>" class="form-control my-2" name="tipo" />
+
+    <h4>Graduación:</h4>
+    <input type="text" placeholder="<%= botellas.graduacion %>" class="form-control my-2" name="graduacion" />
+
+    <h4>Calidad:</h4>
+    <input type="text" placeholder="<%= botellas.calidad %>" class="form-control my-2" name="calidad" />
+
+    <button type="submit" class="btn btn-success btn-sm" type="submit">Actualizar</button>
+  </form>
+  <% } %>
+</div>
+<%- include("template/footer") %>
+
+<script>
+  const formEditar = document.querySelector('#editar');
+  formEditar.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    const id = formEditar.elements['id'].value
+    const nombre = formEditar.elements['nombre'].value
+    const tipo = formEditar.elements['tipo'].value
+    const graduacion = formEditar.elements['graduacion'].value
+    const calidad = formEditar.elements['calidad'].value
+    const _id = formEditar.dataset.id
+    const data = await fetch(`/${_id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id,
+        nombre,
+        poblacion,
+        pais,
+        continente,
+        gentilicio
+      })
+    })
+    const res = await data.json()
+    if (res.estado) {
+      window.location.href = '/'
+    } else {
+      console.log(res)
+    }
+  })
+</script>
